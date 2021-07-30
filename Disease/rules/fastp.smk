@@ -12,30 +12,30 @@ rule fastp:
     benchmark:
         "benchmark/fastp.{sample}_{libid}_{lane}"
     output: 
-        log = "{sample}/2.QC/{sample}_{libid}_lane.done",
+        log = "{sample}/2.QC/{sample}_{libid}_{lane}.log",
         clean1 = "{sample}/2.QC/{sample}_{libid}_L{lane}_1.clean.fq.gz",
         clean2 = "{sample}/2.QC/{sample}_{libid}_L{lane}_2.clean.fq.gz",
     run: 
         """
         ## 数据软链
-        mkdir -p {sample}/3.RawData/
-        cd {projdir}/{sample}/RawData
-        ln -sf {path}/{libid}/{libid}_L{lane}_1.fq.gz {sample}/RawData/{sample}_{libid}_L{lane}_1.fq.gz 
-        ln -sf {path}/{libid}/{libid}_L{lane}_2.fq.gz {sample}/RawData/{sample}_{libid}_L{lane}_2.fq.gz 
-        ln -sf {path}/{libid}/{libid}_L{lane}_1.adapter.list.gz {sample}/RawData/{sample}_{libid}_L{lane}_1.adapter.list.gz 
-        ln -sf {path}/{libid}/{libid}_L{lane}_2.adapter.list.gz {sample}/RawData/{sample}_{libid}_L{lane}_2.adapter.list.gz 
+        mkdir -p {params.sample}/3.RawData/
+        cd {projdir}/{params.sample}/RawData
+        ln -sf {path}/{libid}/{libid}_L{lane}_1.fq.gz {params.sample}/RawData/{params.sample}_{libid}_L{lane}_1.fq.gz 
+        ln -sf {path}/{libid}/{libid}_L{lane}_2.fq.gz {samparams.sample}/RawData/{params.sample}_{libid}_L{lane}_2.fq.gz 
+        ln -sf {path}/{libid}/{libid}_L{lane}_1.adapter.list.gz {params.sample}/RawData/{params.sample}_{libid}_L{lane}_1.adapter.list.gz 
+        ln -sf {path}/{libid}/{libid}_L{lane}_2.adapter.list.gz {params.sample}/RawData/{params.sample}_{libid}_L{lane}_2.adapter.list.gz 
 
         ## 数据质控
-        mkdir -p {sample}/2.QC
-        cd {projdir}/{sample}/2.QC
+        mkdir -p {params.sample}/2.QC
+        cd {projdir}/{params.sample}/2.QC
 
         fastp \\
-            -i ../1.RawData/{sample}_{libid}_L{lane}_1.fq.gz \\
-            -I ../1.RawData/{sample}_{libid}_L{lane}_2.fq.gz \\
-            -o {sample}_{libid}_L{lane}_1.clean.fq.gz \\
-            -O {sample}_{libid}_L{lane}_1.clean.fq.gz \\
-            -j {sample}_{libid}_L{lane}_1.clean.fastp.json \\
-            -h {sample}_{libid}_L{lane}_1.clean.fastp.html \\
+            -i ../1.RawData/{params.sample}_{libid}_L{lane}_1.fq.gz \\
+            -I ../1.RawData/{params.sample}_{libid}_L{lane}_2.fq.gz \\
+            -o {params.sample}_{libid}_L{lane}_1.clean.fq.gz \\
+            -O {params.sample}_{libid}_L{lane}_1.clean.fq.gz \\
+            -j {params.sample}_{libid}_L{lane}_1.clean.fastp.json \\
+            -h {params.sample}_{libid}_L{lane}_1.clean.fastp.html \\
             -q 5 -u 50 -n 15 -l {PE} \\
             -w 4
 
