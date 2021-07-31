@@ -7,6 +7,7 @@ data.path结构见readme.md文件
 
 
 import os
+from collections import defaultdict
 
 
 
@@ -19,7 +20,8 @@ except:
 
 
 # bin_path = {config['bin_path']}
-# configfile = bin_path + '/test.yaml'
+configfile: 'yaml/database.yaml'
+
 
 
 
@@ -29,8 +31,12 @@ def mkdir(dirname):
 
 
 ####################################################
+projdir = config['O']
 sample_fq_dict = {}
 sample_info = []
+# 记录每个样本对应的bam列表，用于后续合并
+sample_bam_list_info = defaultdict(list)
+sample_bam_count = {}
 
 with open(data_path, 'r') as fr:
     for line in fr:
@@ -45,14 +51,29 @@ with open(data_path, 'r') as fr:
 
         sample_fq_dict[(sample, libid, lane)] = [fq1, fq2]
         sample_info.append([sample, libid, lane])
+        sort_bam = '{sample}/3.Mapping/{sample}_{libid}_L{lane}.sort.bam'.format(**locals())
+        sample_bam_list_info[sample].append(sort_bam)
+        
 
 
-# print(sample_fq_dict)
+
+
+#######################################
+for sam in sample_bam_list_info:
+    if len(sample_bam_list_info[sam]) > 1:
+        sample_bam_count[sam] = "more"
+    else:
+        sample_bam_count[sam] = "single"
+
+
+print(sample_fq_dict)
+print(sample_bam_count)
+print(sample_bam_list_info)
 
 
 rule allDone:
     input:
-        log = ["{sample}/2.QC/{sample}_{libid}_{lane}.log".format(**locals()) for (sample, libid, lane) in sample_info]
+        log = ["{sample}/4.Mutation/SNP_INDEL/{sample}.snp_indel.done".format(**locals()) for (sample, libid, lane) in sample_info]
     output:
         log = "all.done",
         result = "Result.zip"
@@ -69,4 +90,7 @@ rule allDone:
 
 
 ######################################
-include: "rules/fastp.smk"
+include: "rules/QC.smk"
+include: "rules/Mapping.smk"
+include: "rules/Markdup.smk"
+include: "rules/Mutation.smk"
