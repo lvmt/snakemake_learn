@@ -1,8 +1,8 @@
-snakemake \
-    -s disease.snakemake \
+/usr/local/bin/snakemake \
+    -s disease.smk \
     -p \
     -C S=data.path \
-    O=outdir \
+    O=/Code/Disease \
     --cluster "qsub -clear -cwd -P B2C_Cancer -q bc_b2c.q -l num_proc={threads} -l vf={resources.mem_mb}M -binding linear:{threads}" \
     --rerun-incomplete \
     --jobs 1000 \
@@ -11,4 +11,8 @@ snakemake \
     --rerun-incomplete \
     --latency-wait 60 \
     --stats runtime.json \
-    --drmaa-log-dir outdir/sh 
+    --cores all \
+    --drmaa-log-dir /Code/Disease/sh  \
+    -n 
+
+

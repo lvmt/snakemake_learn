@@ -47,6 +47,8 @@ with open(data_path, 'r') as fr:
         sample_info.append([sample, libid, lane])
 
 
+# print(sample_fq_dict)
+
 
 rule allDone:
     input:
