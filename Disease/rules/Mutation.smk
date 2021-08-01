@@ -70,26 +70,43 @@ rule snpindel_call:
 
 
 
-# rule sv_call:
-#     input:
-#         bam = "",
-#     output:
-#         sv = "",
-#         log = "{sample}/4.Mutation/SV/sv.done"
-#     shell:
-#         """
-#         sv calling
-#         """
+rule sv_call:
+    input:
+        bam = "{sample}/3.Mapping/{sample}.nodup.bam",
+    params:
+        sample = "{sample}",
+        ref = config['ref']
+    output:
+        sv = "{sample}/4.Mutation/SV/{sample}.sv.xls",
+        log = "{sample}/4.Mutation/SV/{sample}.sv.done"
+    shell:
+        """
+        #使用lumpy进行sv calling
+        echo lumpy call for {params.sample} start: `date "+%F %T"`\n
+
+        cd {params.sample}/4.Mutation/SV
+        python lumpy.py \\
+            -b {input.bam} \\
+            -r {params.ref} \\
+            -o {params.sample}
+
+        echo lumpy call for {params.sample} done 
+        touch {output.log}
+
+        """
 
 
 
-# rule cnv_call:
-#     input:
-#         bam = "",
-#     output:
-#         cnv = "",
-#         log = "{sample}/4.Mutation/CNV/cnv.done"
-#     shell:
-#         """
-#         cnv calling
-#         """
+rule cnv_call:
+    input:
+        bam = "{sample}/3.Mapping/{sample}.nodup.bam",
+    params:
+        sample = "{sample}",
+        ref = config['ref']
+    output:
+        cnv = "{sample}/4.Mutation/CNV/{sample}.cnv.xls",
+        log = "{sample}/4.Mutation/CNV/{sample}.cnv.done"
+    shell:
+        """
+        cnv calling
+        """
