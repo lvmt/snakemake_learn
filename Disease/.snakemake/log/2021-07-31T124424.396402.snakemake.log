@@ -1,0 +1,21 @@
+Building DAG of jobs...
+Job stats:
+job        count    min threads    max threads
+-------  -------  -------------  -------------
+allDone        1              1              1
+fastp         11              1              1
+total         12              1              1
+
+
+[Sat Jul 31 12:44:24 2021]
+rule fastp:
+    input: /jdfstj1/BC_RAWDATA_01/mgiseq/V100400180032/V350018734/L01/V350018734_L01_1025_1.fq.gz, /jdfstj1/BC_RAWDATA_01/mgiseq/V100400180032/V350018734/L01/V350018734_L01_1025_2.fq.gz
+    output: yanxuewu-BM.yanxuewu-BM/2.QC/yanxuewu-BM.yanxuewu-BM_V350018734_1.log, yanxuewu-BM.yanxuewu-BM/1.RawData/yanxuewu-BM.yanxuewu-BM_V350018734_L1_1.fq.gz, yanxuewu-BM.yanxuewu-BM/1.RawData/yanxuewu-BM.yanxuewu-BM_V350018734_L1_2.fq.gz, yanxuewu-BM.yanxuewu-BM/2.QC/yanxuewu-BM.yanxuewu-BM_V350018734_L1_1.clean.fq.gz, yanxuewu-BM.yanxuewu-BM/2.QC/yanxuewu-BM.yanxuewu-BM_V350018734_L1_2.clean.fq.gz
+    jobid: 10
+    benchmark: benchmark/fastp.yanxuewu-BM.yanxuewu-BM_V350018734_1
+    wildcards: sample=yanxuewu-BM.yanxuewu-BM, libid=V350018734, lane=1
+    resources: tmpdir=/tmp, mem_mb=1000
+
+WildcardError in line 2 of /home/lvmengting/Code/Disease/rules/fastp.smk:
+Wildcards in params cannot be determined from output files. Note that you have to use a function to deactivate automatic wildcard expansion in params strings, e.g., `lambda wildcards: '{test}'`. Also see https://snakemake.readthedocs.io/en/stable/snakefiles/rules.html#non-file-parameters-for-rules:
+'projdir'

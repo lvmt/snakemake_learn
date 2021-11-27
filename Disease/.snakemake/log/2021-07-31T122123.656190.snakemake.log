@@ -1,0 +1,4 @@
+SystemExit in line 18 of /home/lvmengting/Code/Disease/disease.smk:
+请输入data.path文件
+  File "/home/lvmengting/Code/Disease/disease.smk", line 18, in <module>
+  File "/usr/lib64/python3.6/_sitebuiltins.py", line 26, in __call__

@@ -66,14 +66,17 @@ for sam in sample_bam_list_info:
         sample_bam_count[sam] = "single"
 
 
-print(sample_fq_dict)
-print(sample_bam_count)
-print(sample_bam_list_info)
+# print(sample_fq_dict)
+# print(sample_bam_count)
+# print(sample_bam_list_info)
 
 
+############################################
 rule allDone:
     input:
-        log = ["{sample}/4.Mutation/SNP_INDEL/{sample}.snp_indel.done".format(**locals()) for (sample, libid, lane) in sample_info]
+        snp_indel = ["{sample}/6.Filter/SNP_INDEL/{sample}.filter.done".format(**locals()) for (sample, libid, lane) in sample_info],
+        sv = ["{sample}/6.Filter/SV/{sample}.filter.done".format(**locals()) for (sample, libid, lane) in sample_info],
+        cnv = ["{sample}/6.Filter/CNV/{sample}.filter.done".format(**locals()) for (sample, libid, lane) in sample_info]
     output:
         log = "all.done",
         result = "Result.zip"
@@ -94,3 +97,6 @@ include: "rules/QC.smk"
 include: "rules/Mapping.smk"
 include: "rules/Markdup.smk"
 include: "rules/Mutation.smk"
+include: "rules/Annotation.smk"
+include: "rules/Filter.smk"
+ 

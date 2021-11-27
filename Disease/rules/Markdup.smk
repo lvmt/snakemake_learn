@@ -16,13 +16,13 @@ rule markdup:
         if [ '{params.bam_count}' == 'single']
         then
             mv {input.sort_bam} {output.merge_bam} 
-            sambamba index {output.merge_bam}
         else
             sambamba merge \\
             {output.merge_bam} \\
             {input.bam_list}
-            sambamba index {output.merge_bam}
         fi
+        
+        sambamba index {output.merge_bam}
 
 
         ## markdup 标记重复

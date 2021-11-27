@@ -1,0 +1,5 @@
+Building DAG of jobs...
+MissingInputException in line 2 of /home/lvmengting/Code/Disease/rules/fastp.smk:
+Missing input files for rule fastp:
+/jdfstj1/BC_RAWDATA_01/mgiseq/R100400180034/V350014341/L03/V350014341_L03_1028_1.fq.gz
+/jdfstj1/BC_RAWDATA_01/mgiseq/R100400180034/V350014341/L03/V350014341_L03_1028_2.fq.gz

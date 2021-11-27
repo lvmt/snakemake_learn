@@ -1,0 +1,10 @@
+Building DAG of jobs...
+InputFunctionException in line 1 of /home/lvmengting/Code/Disease/rules/fastp.smk:
+Error:
+  TypeError: list indices must be integers or slices, not tuple
+Wildcards:
+  sample=siyaolitu-2.siyaolitu-2
+  libid=V350018749
+  lane=1
+Traceback:
+  File "/home/lvmengting/Code/Disease/rules/fastp.smk", line 3, in <lambda>
