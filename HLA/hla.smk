@@ -13,7 +13,7 @@ from collections import defaultdict
 
 # 输入文件为生产提供的excel表格
 ## 生成samid文件
-samid = config["O"] + "/" + config["fenqi"] + ".samid"
+samid = config["O"] + "/" + config["fenqi"] + ".samid"   # 后续优化的时候，将分期更改为suffix
 print(config)
 excel_values = pd.read_excel(config["S"], skiprows=2).values 
 
@@ -51,14 +51,31 @@ with open(fqlist, 'w') as fw:
 print(fq_dict)
 
 
+###################获取全部样本，全部文库信息#############################
+########################################################################
+sams = ['L' + str(item).rjust(3, '0') for item in range(1, 97)]
+librarys = fq_dict.keys()
+
+
+#===================================================
+#===================================================
         
 
 rule allDone:
     input:
-        result = ["{0}/test.txt".format(library) for library in fq_dict.keys()]
+        # result = ['{0}/fastq/{1}/type.result.final'.format(library, sam) for library in fq_dict.keys() for sam in sams]
+        log =  "step5.done.log"
     output:
         log = "all.done",
         result = "result.zip"
 
 
+# include: "QC.smk"
+# include: "split_data.smk"
+
+
 include: "step1_filter.smk"
+include: "step2_hla_analysis.smk"
+include: "step3_cat_library_result.smk"
+include: "step4_merge_all_result.smk"
+include: "step5_final_handle.smk"
