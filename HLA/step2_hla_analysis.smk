@@ -6,6 +6,9 @@ rule HLA_analysis:
         sam = "{sam}",
         projdir = config["O"],
         library = "{library}",
+    resources:
+        mem_mb = 5000,
+    threads: 2,
     output:
         result = "{library}/fastq/{sam}/type.result.final",
     shell:

@@ -2,11 +2,13 @@ rule Final_step:
     input:
         "step4.done.log"
     params:
-        projdir = config["O"]
-
+        projdir = config["O"],
+        suffix = config["suffix"],
+    resources: 
+        mem_mb = 5000,
+    threads: 1
     output:
         "step5.done.log"
-
     shell:
         """
         echo five
@@ -19,7 +21,7 @@ rule Final_step:
 
         /ifs9/B2C_Cancer/PIPELINE/lung_colon_yitiji/lung_colon/miniconda3/envs/seqmeta/bin/python \\
             /zfsyt1/B2C_COM_P1/USER/lmt/zhougenming/zhougengmin/HLA/HLAb2_check.v0.1.py \\
-            -i {params.projdir}/result/21HLA049P-21GSK830-831.xlsx \\
+            -i {params.projdir}/result/{params.suffix}.xlsx \\
             -d {params.projdir}
 
         cat {params.projdir}/result/all_a_results \\
@@ -33,35 +35,33 @@ rule Final_step:
             /zfsyt1/B2C_COM_P1/USER/lmt/zhougenming/zhougengmin/HLA/HLA_snp.py \\
             -d {params.projdir}
 
-        mv snp_bias_file 21HLA049P-21GSK830-831_snp_bias_file
+        mv snp_bias_file {params.suffix}_snp_bias_file
 
-        zip -r  21HLA049P-21GSK830-831_snp_bias_file.zip 21HLA049P-21GSK830-831_snp_bias_file  
-        # 传入文件参数：分期：21HLA049P-21GSK830-831
+        zip -r  {params.suffix}_snp_bias_file.zip {params.suffix}_snp_bias_file  
 
-        zip -r 21HLA049P-21GSK830-831_exom_file.zip 21HLA049P-21GSK830-831_exom_file
+        zip -r {params.suffix}_exom_file.zip {params.suffix}_exom_file
 
-        ln -sf {params.projdir}/result/21HLA049P-21GSK830-831.xlsx \\
-            {params.projdir}/release/21HLA049P-21GSK830-831样本信息整体对应表-LYM_ZLM.xlsx 
+        ln -sf {params.projdir}/result/{params.suffix}.xlsx \\
+            {params.projdir}/release/{params.suffix}样本信息整体对应表-LYM_ZLM.xlsx 
 
-        ln -sf {params.projdir}/21HLA049P-21GSK830-831_result_combined.xls \\
-            {params.projdir}/release/21HLA049P-21GSK830-831样本信息整体对应表-LYM_ZLM_result_combined.xls 
+        ln -sf {params.projdir}/{params.suffix}_result_combined.xls \\
+            {params.projdir}/release/{params.suffix}样本信息整体对应表-LYM_ZLM_result_combined.xls 
 
-        ln -sf {params.projdir}/21HLA049P-21GSK830-831_snp_bias_file.zip \\
-            {params.projdir}/release/21HLA049P-21GSK830-831样本信息整体对应表-LYM_ZLM_snp_bias_file.zip 
+        ln -sf {params.projdir}/{params.suffix}_snp_bias_file.zip \\
+            {params.projdir}/release/{params.suffix}样本信息整体对应表-LYM_ZLM_snp_bias_file.zip 
 
-        ln -sf {params.projdir}/21HLA049P-21GSK830-831_exom_file.zip \\
-            {params.projdir}/release/21HLA049P-21GSK830-831样本信息整体对应表-LYM_ZLM_exom_file.zip 
+        ln -sf {params.projdir}/{params.suffix}_exom_file.zip \\
+            {params.projdir}/release/{params.suffix}样本信息整体对应表-LYM_ZLM_exom_file.zip 
 
         /ifs9/B2C_Cancer/PIPELINE/lung_colon_yitiji/lung_colon/miniconda3/envs/seqmeta/bin/python \\
             /ifs9/B2C_COM_P1/PROJECT/HLA/WORK/lmt/Code/pipelineHLA/sendemail2.py \\
             --projdir {params.projdir} \\
-            --name 21HLA049P-21GSK830-831样本信息整体对应表-LYM_ZLM 
+            --name {params.suffix}样本信息整体对应表-LYM_ZLM 
 
         /ifs9/B2C_Cancer/PIPELINE/lung_colon_yitiji/lung_colon/miniconda3/envs/seqmeta/bin/python \\
             /ifs9/B2C_COM_P1/PROJECT/HLA/WORK/lmt/Code/pipelineHLA/rmfile_hla.py \\
             --projdir {params.projdir} \\
-            --suffix 21HLA049P-21GSK830-831 
-
+            --suffix {params.suffix} 
 
         """
 

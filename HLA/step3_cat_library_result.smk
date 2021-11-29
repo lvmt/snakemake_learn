@@ -5,6 +5,9 @@ rule Merge_library:
         projdir = config["O"],
         library = "{library}",
         samid = samid,
+    resources:
+        mem_mb = 5000,
+    threads: 1,
     output:
         log = "{library}/step3.done.log",
     shell:

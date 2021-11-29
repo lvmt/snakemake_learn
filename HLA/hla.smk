@@ -13,8 +13,10 @@ from collections import defaultdict
 
 # 输入文件为生产提供的excel表格
 ## 生成samid文件
-samid = config["O"] + "/" + config["fenqi"] + ".samid"   # 后续优化的时候，将分期更改为suffix
-print(config)
+samid = config["O"] + "/" + config["suffix"] + ".samid"   # 后续优化的时候，将分期更改为suffix
+fqlist = config["O"] + "/" + config["suffix"] + ".fqlist"
+suffix = config["suffix"] 
+
 excel_values = pd.read_excel(config["S"], skiprows=2).values 
 
 with open(samid, 'w') as fw:
@@ -25,7 +27,6 @@ with open(samid, 'w') as fw:
 
     
 ## 根据samid文件，生成fqlist文件
-fqlist = config["O"] + "/" + config["fenqi"] + ".fqlist"
 fq_dict = {}
 with open(samid, 'r') as fr:
     suffix = '/ifs9/zebra/MGISEQ-2000'

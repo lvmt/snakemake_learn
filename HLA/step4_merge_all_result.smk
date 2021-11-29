@@ -5,9 +5,12 @@ rule Merge_all:
         projdir = config["O"],
         all_library = expand("{lib}", lib=librarys),
         all_abs_library = expand("{projdir}/figure/{lib}", projdir=config["O"], lib=librarys),
+        samid = samid,
+    resources:
+        mem_mb = 5000,
+    threads: 1,
     output:
         log = "step4.done.log"
-
     shell:
         """ 
         echo "start: merge all result of one library" + `date` >> {output.log} 
@@ -23,7 +26,7 @@ rule Merge_all:
 
         #/zfsyt1/B2C_COM_P1/USER/lmt/HLA_pipeline/HST_MGI_V4_3.39_2_db_git_exe/bin/abstract_InDel2 \\
             {params.projdir}/*/fastq/L*/*.consence \\
-            {params.projdir}/21HLA049P-21GSK830-831.samid \\
+            {params.samid} \\
             > {params.projdir}/result/all.InDel.txt
 
         /zfsyt1/B2C_COM_P1/USER/lmt/HLA_pipeline/HST_MGI_V4_3.39_2_db_git_exe/bin/Rscript \\

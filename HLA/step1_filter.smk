@@ -8,7 +8,7 @@ rule QC:
         library = "{library}",
         projdir = config["O"],
     resources:
-        mem_mb = 2000
+        mem_mb = 32000,
     threads: 1
     benchmark:
         "benchmark/step1.{library}.QC.log"
