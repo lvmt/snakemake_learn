@@ -1,3 +1,39 @@
 ref: /home/lvmengting/Code/database/hg19.fa
 capture_bed: /home/lvmengting/Code/database/wes.bed
 bed: /home/lvmengting/Code/Disease/rules/test.bed 
+analysis:
+  '1':  QC
+  '2':  Mapping
+  '3':  markdup
+  '4.1':  mutation_snv
+  '4.2':  mutation_indel
+  '4.3':  mutation_cnv
+  '4.4':  mutation_sv
+  '5.1':  anno_snv
+  '5.2':  anno_indel
+  '5.3':  anno_cnv
+  '5.4':  anno_sv
+  '6.1':  filter_snv
+  '6.2':  filter_indel
+  '6.3':  filter_cnv
+  '6.4':  filter_sv
+
+result_suffix:
+  QC: clean.fq
+  Mapping:  bam
+  markdup:  nodup.bam
+  mutation_snv: snp.vcf.gz
+  mutation_indel: indel.vcf.gz
+  mutation_cnv: cnv.xls
+  mutation_sv:  sv.xls
+
+
+result_dir:
+  QC: 2.QC
+  Mapping: 3.Mapping
+  markdup: 3.Mapping
+  mutation_snv: 4.Mutation/SNP_INDEL  
+  mutation_indel: 4.Mutation/SNP_INDEL  
+  mutation_cnv: 4.Mutation/CNV
+  mutation_sv: 4.Mutation/SV
+
